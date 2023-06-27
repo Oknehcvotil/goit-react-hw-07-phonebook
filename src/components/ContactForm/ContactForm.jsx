@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { Form, Label, Input, Btn } from './ContactForm.styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { getContacts } from 'redux/selector';
-import { addContact } from 'redux/contactsSlice';
 import { toast } from 'react-toastify';
+import { addContactThunk } from 'redux/thunk';
 
 const ContactForm = () => {
   const [name, setName] = useState('');
@@ -41,7 +41,12 @@ const ContactForm = () => {
       return toast.error(`${name} is already in contacts`);
     }
 
-    dispatch(addContact(name, number));
+    const newContact = {
+      name,
+      number,
+    };
+
+    dispatch(addContactThunk(newContact));
 
     reset();
   };
